@@ -18,7 +18,9 @@ router.post('/', (req, res) => res.json({ postBody: req.body }));
 
 router.post('/postDraft', (req, res) => {
   postDraft(req.body.conversationId)
-  res.sendStatus(200)}
+  .then((result) => {
+    res.json({ result: JSON.stringify(result) })
+  })
 );
 
 app.use(bodyParser.json());
@@ -72,6 +74,8 @@ async function postDraft(conversationId) {
     },
   }
 
-  const res = await makeRequest(formData, options);
-  console.log(res);
+  makeRequest(formData, options)
+  .then((response) => {
+    return response
+  })
 }
